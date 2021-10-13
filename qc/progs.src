@@ -1,0 +1,49 @@
+../pak/progs.dat
+
+//defs:  definitions
+	base/defs/defs-essential.qc
+	base/defs/enums.qc
+	base/defs/typedefs.qc
+	base/defs/globalconst.qc
+	base/defs/globalvars.qc
+	base/defs/entmembers.qc
+	base/defs/builtins.qc
+//subs:  useful subroutines
+	base/subs/linkedlists.qc
+	base/subs/misc.qc
+	base/subs/trigger.qc
+//player: animation, etc associated with a player
+	base/player/weapons.qc
+	base/player/framedata.qc
+	base/player/animation.qc
+//client: client management
+	base/client/subs.qc
+	base/client/weaphandle.qc
+	base/client/spawn.qc
+	base/client/thinktypes.qc
+//ai
+	base/ai/subs.qc
+	base/ai/generic.qc
+	base/ai/soldier/framedata.qc
+	base/ai/soldier/subs.qc
+	base/ai/soldier/soldier.qc
+	base/ai/postdefs.qc
+//items
+	base/items/items.qc
+//environment:
+	base/environment/subs.qc
+	base/environment/env.qc
+	base/environment/spawn.qc
+//init:   server initialization
+	base/init/startup.qc
+//main:   engine calls
+	base/main/world.qc
+	base/main/client.qc
+	base/main/spawn/bspmobs.qc
+	base/main/spawn/directspawns.qc
+	base/main/spawn/maplogic.qc
+	base/main/spawn/other.qc
+	base/main/spawn/spawns.qc
+	base/main/spawn/items.qc
+	base/main/spawn/ambience.qc
+	base/main/spawn/monsters.qc

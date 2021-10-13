@@ -1,0 +1,7 @@
+.weaponframe may not be zero on immediate switch after firing, not fixed by setting to zero in _switchto
+
+button near non secret megahealth on dm2 moves backwards
+DOOR_START_OPEN does not work
+item_weapon seems to already be used on dm6
+
+env_plat on E1M1 activates again before it reaches its top

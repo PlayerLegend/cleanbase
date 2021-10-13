@@ -1,0 +1,9 @@
+The intention of this mod is to provide a clean base (no warnings, simple codebase) for making further modifications
+Included will be:
+	 Player movement
+	 Player/Monster/Other animation using mdls
+	 Essential map funcs and triggers
+	 Linked lists using entities
+
+This should be engine portable, but not necessarily compiler portable, I will use fteqcc
+Later I will fork this and add skeletal animation support and whatever other FTE bells & whistles come up

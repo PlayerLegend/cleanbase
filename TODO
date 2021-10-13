@@ -1,0 +1,33 @@
+Linked lists are not tested
+Trigger masks are not tested
+Might try working on a way to do modular weapons without arrays
+fix doors to work with trigger locks, like on E3M1
+
+.touch activates the train's .e_target, this includes the set origin
+
+###
+add double move functionality to doors
+#
+buttons, doors, secret doors, triggers, and plats work now
+activations are run twice on everything, check why
+trains do not work
+moving things always kill if blocked
+make sure everything is turned on when spawned, a check for this has been added
+get trigger_hurt working
+
+
+
+Darkplaces bug with string offset is somewhere in the spawning of a trigger for triggerless doors and plats
+
+IMPORTANT NOTE - Add to docs:
+	  find does not return world if passed the string "" in engines other than FTE
+	  CRC appears when necessary things are missing from the first file(ie: defs.qc)
+
+
+
+
+Implement killtarget
+
+Players still have a chance to fall out of world when joining the server
+
+make monsters work with triggers

@@ -1,0 +1,125 @@
+============================Source guide for 'cleanbase'========================
+regarding directory/file use
+	  Code for this project will be kept under the cleanbase directory 
+	  in the source folder, this trend will be followed for other projects
+	  wherever it benefits organization.
+	  Within cleanbase, directories are as follows:
+	  	 defs = definitions files
+		 subs = general purpose subroutines
+		 client = client management
+		 init = server/world initialization
+	  	 main = all files containing functions called by the engine
+	  For the sake of brevity paths here will often omit the cleanbase/
+	  directory
+		 
+	Regarding the files in each directory
+	  defs/defs-essential.qc
+		This is everything that needs to be there for the engine not to
+		bitch at you.
+		Much of this was copied from the quake from scratch tutorial
+		(see in /docs/html).
+	  defs/enums.qc
+		static definitions I'd do with enums if they worked, could
+		be redone with preprocessor defines
+	  defs/defines.qc
+		preprocessor defines
+	  defs/entmembers.qc
+		entity member definitions
+	  defs/globalvars.qc
+	        global variables
+          subs/linkedlists.qc
+	        subroutines for working with linked lists
+	  client/spawn.qc
+		functions used when (re)spawning a client
+	  client/thinktypes.qc
+	        prethink/postthink functions that the client runs based on
+		its .cl_thinktype, see "regarding prethink/postthink" later
+		in this file
+	  init/startup.qc
+		all the functions to be run in main/world.qc to initialize
+		the server
+	  init/spawnfuncs.qc
+		spawn functions for map entities
+	  main/world.qc
+		functions called by the engine to initialize and manage
+		the world
+	  main/client.qc
+		functions called by the engine to recieve, spawn, and
+		manage clients
+		
+
+linked lists
+	  A linked list here will be a chain of member entities, each of which
+	  will point to another such that they are linked in a chain
+	  Lists can be single linked or double linked, single linked lists
+	  posess only a field pointing to the next member of the list, while
+	  double linked lists have fields pointing to both the next and previous
+	  members of the list
+	  Names of fields used in a single linked list will be prefixed by l_
+	  Names of fields in double linked lists will be prefixed by ll_
+	  Double linked lists will be composed of a dedicated type(currently
+	  a preprocessor define), list_t.
+	  The list_t type will, in addition to the fields necessary to link a
+	  list together, have a .mem_ent field to refer to the entity associated
+	  with that particular member of the list.
+	  Linked lists are managed with subroutines in subs/linkedlists.qc
+prethink/postthink
+	  the client thinks can be set to different "modes" by changing the
+	  player's .cl_thinktype
+	  Based on its .cl_thinktype, a client will run different functions
+	  from it's PlayerPrethink and PlayerPostthink
+	  This will hopefully allow behavior to be modular and easily expandable
+	  For this project, the client will have a mode for being dead and
+	  being alive, modes will be stored in client/thinktypes.qc
+weapons
+		Weapons will be described by the type weapon_t, the members of
+	  which are '.void() action[WEAP_ACTIONS]' and '.void() switchto'
+	  	    .action[] contains a function to call when a given  aspect
+		    	      of a weapon(i.e, attack, alt fire, reload) is
+			      activated. Usually this will be an an animation.
+		    .switchto is called to switch to a weapon, it sets the
+		    	      player and whatever else up as it needs to in
+			      order to select the given weapon
+	  Entity fields pertinant to weapons are '.float weaponframestart',
+	        '.float weapwait', '.float weaponslotnum', '.float weaponid',
+		and '.float weap_action[WEAP_ACTIONS]'
+	  	    .weaponframestart - the initial frame of the viewmodel's
+		    		        animation
+		    .weapwait         - is the 'time' value after when the
+		    		        weapon will not be busy, equivalent
+					to .attack_finished in Quake's code
+		    .weaponslotnum    - describes which weapon slot is being
+		    		        used( not a WEAPID_ )( WEAPID_ is
+					defined later )
+		    .weaponid         - the WEAPID_ of the current weapon
+		    .weap_action[]    - a copy of the current weapon's .action[]
+	       Weapons functions, with the exception of animations, should go in
+	       "player/weapons.qc", animations should go in
+	       "player/animations.qc"
+	       Functions in weapons.qc should be named along the lines of
+	       weap_player_name_action
+	       Functions in animations.qc should be named as those in weapons,
+	       but with anim_ in place of weap_
+	       Though that may sound quite wordy, it's done with the expectation
+	       of adding different things that might have similar weapons and
+	       animations associated with them
+           Adding a weapon
+	       three things are essential here: an entry  in the WEAPID_
+	       enumerated type in "defs/enums.qc", a function which
+	       sets the weapon as the player's current(explained later), and
+	       a function, run in function init_weapons of "init/startup.qc",
+	       which adds the weapon's information to an entry of
+	       'weapon_t weaponlist' at index WEAP_weaponname. Be sure that your
+	       entry in WEAPID_ enum comes before the MAX_WEAPID entry or things
+	       could shit the bed
+	       A weapon_t contains an array of void function pointers called
+	       .action, these are all the actions a weapon can perform.
+	       weapon_t also contains a function, .switchto, to set up the
+	       such that they're holding the weapon
+	       Both .action and .switchto should be set in your weapon's entry
+	       under weaponlist[], all unused entries in .action should be
+	       SUB_Null
+	       To set the player's current weapon, copy the weapon's .action
+	       to the player's .weap_action and set the player's .weapid to
+	       the weapon's WEAPID_weaponname, and do whatever else you need
+	       to(animations, .weaponmodel, etc.)
